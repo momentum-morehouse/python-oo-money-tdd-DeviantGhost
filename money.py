@@ -86,15 +86,13 @@ class Money:
         currencies, raise a DifferentCurrencyError.
         """
         if(self.currency.code == other.currency.code):
-            decimalPlace = ("." + str(self.currency.digits) + "f")
-            firstCost = format(float(self.amount),decimalPlace)
-            secondCost = format(float(other.amount),decimalPlace)
-            total = format(float(firstCost) + float(secondCost), decimalPlace)
-            newValue = Money(total, self.currency)
+            firstCost = self.amount
+            secondCost = other.amount
+            newValue = Money(firstCost + secondCost, self.currency)
             return newValue
 
         else:
-            DifferentCurrencyError(Exception)
+            raise DifferentCurrencyError
 
 
     def sub(self, other):
@@ -103,23 +101,26 @@ class Money:
         currencies, raise a DifferentCurrencyError.
         """
         if(self.currency.code == other.currency.code):
-            decimalPlace = ("." + str(self.currency.digits) + "f")
-            firstCost = format(float(self.amount),decimalPlace)
-            secondCost = format(float(other.amount),decimalPlace)
-            total = firstCost - secondCost
-            return f"Money {self.currency.symbol}{total}"
+            firstCost = self.amount
+            secondCost = other.amount
+            newValue = Money(firstCost - secondCost, self.currency)
+            return newValue
 
         else:
-            DifferentCurrencyError(Exception)
+            raise DifferentCurrencyError
 
     def mul(self, multiplier):
-        """
-        Multiply a money object by a number to get a new money object.
-        """
-        pass
+        firstCost = self.amount
+        self.multiplier = multiplier
+        newValue = Money(firstCost * (multiplier), self.currency)
+        return newValue
 
-    def div(self, divisor):
-        """
-        Divide a money object by a number to get a new money object.
-        """
-        pass
+        
+
+    def div(self, divisor): 
+        firstCost = self.amount
+        self.divisor = divisor
+        newValue = Money(firstCost / (divisor), self.currency)
+        return newValue
+
+       
